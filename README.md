@@ -19,7 +19,7 @@ It then analyzes a target mix, measures its deviation from those reference profi
 
 ## Architecture
 
-```text
+
 Professional Reference WAVs
         ↓
 Reference Analyzers
@@ -27,6 +27,8 @@ Reference Analyzers
 Statistical Profile Builders
         ↓
 Reference Profiles
+
+
 Target Mix + Stems
         ↓
 Target Analysis
@@ -41,9 +43,14 @@ Cross-Domain Reasoning
         ↓
 File Handling Lead
         ↓
-Production Recommendations Analysis domains
-Spectral
+Production Recommendations 
+
+## Analysis domains
+
+## Spectral
+
 The spectral system measures relative energy across eight frequency bands:
+
 Sub: 20–60 Hz
 Bass: 60–120 Hz
 Low Mid: 120–250 Hz
@@ -53,28 +60,33 @@ Presence: 2–4 kHz
 Brilliance: 4–8 kHz
 Air: 8–16 kHz
 The target is compared against statistical distributions derived from professional references.
-Loudness
+
+## Loudness
 The loudness system analyzes:
 Integrated LUFS
 Estimated true peak
 RMS level
 Loudness Range (LRA)
 Estimated true peak is currently calculated using 4× oversampling and should be treated as an estimate rather than a standards-grade true-peak implementation.
-Dynamics
+
+## Dynamics
 The dynamics system analyzes:
 Sample peak
 Crest factor
 RMS dynamic variation
 RMS P90–P10 spread
 Sample peak is retained as a measurement but is not treated as a primary dynamics indicator because many reference masters are normalized close to 0 dBFS.
-Stereo
+
+## Stereo
 The stereo system analyzes:
 Left/right balance
 Phase correlation
 Mid/Side relationship
 Mono compatibility
-Engineering intelligence
+
+## Engineering intelligence
 The system does not treat statistical deviation as an automatic engineering problem.
+
 Instead:
 Measurement
     ↓
@@ -89,7 +101,8 @@ Contextual Evidence
 Recommendation
 A deviation indicates that something is statistically different from the reference population. The diagnostic layer determines whether that difference is potentially meaningful.
 Recommendations are deliberately conservative. The system does not blindly prescribe EQ boosts, cuts, compression, widening, or other processing based on a single measurement.
-Stem analysis
+
+## Stem analysis
 When stems are available, the system evaluates their contribution to diagnosed spectral regions.
 Example target structure:
 target/
@@ -99,12 +112,15 @@ target/
 └── ditb_wet_back_vox.wav
 The target mix is analyzed separately from its stems.
 Stem contribution is treated as supporting evidence rather than exact causal decomposition because summed stem power does not necessarily reconstruct mix power due to phase relationships, routing, automation, effects, and other interactions.
-Master commands
-Build reference profiles
+
+## Master commands
+
+## Build reference profiles
 Place professional reference WAV files inside references/, then run:
 python build_reference_profiles.py
 This runs the reference-analysis pipeline and builds the spectral, loudness, dynamics, and stereo reference profiles.
-Analyze a target mix
+
+## Analyze a target mix
 Place the target mix and optional stems inside target/, then run:
 python analyze_target.py
 The controller automatically identifies the target mix and associated stems.
@@ -122,7 +138,8 @@ Source-level diagnosis
 Recommendation generation
 Cross-domain reasoning
 File Handling Lead analysis
-Project structure
+
+## Project structure
 reference-profile-engine/
 ├── analyze_target.py
 ├── build_reference_profiles.py
@@ -157,12 +174,14 @@ reference-profile-engine/
 ├── validate_stereo_engineering_diagnosis.py
 ├── requirements.txt
 └── .gitignore
-Installation
+
+## Installation
 Create a Python 3.11 virtual environment:
 python3.11 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-Current limitations
+
+## Current limitations
 The reference dataset is currently small and should be expanded for stronger statistical confidence.
 Reference profiles are currently not genre-specific.
 Spectral band measurements represent relative total power contribution within 20 Hz–16 kHz; they are not power-density measurements.
@@ -170,11 +189,13 @@ Stem contribution analysis provides evidence, not definitive causal attribution.
 Estimated true peak is currently an oversampled estimate.
 More granular stems will improve source-level diagnosis.
 Artifact analysis is not yet integrated into the cross-domain reasoning layer.
-Design principle
+
+## Design principle
 The system is designed around a simple principle:
 Statistical difference is evidence, not a diagnosis.
 The goal is to progressively combine measurements, reference distributions, engineering knowledge, source-level evidence, and cross-domain relationships before recommending production action.
-Status
+
+## Status
 Reference Profile Engine V1
 Completed:
 Reference profile generation
