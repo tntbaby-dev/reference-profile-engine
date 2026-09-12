@@ -1,0 +1,13 @@
+.venv/
+.DS_Store
+
+references/
+target/
+output/
+
+*.wav
+*.aif
+*.aiff
+
+__pycache__/
+*.pyc
